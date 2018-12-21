@@ -1,0 +1,2 @@
+varnames = c("longitude", "latitude", "housingMedianAge", "totalRooms", "totalBedrooms", "population", "households", "medianIncome", "medianHouseValue")
+df <- read.table("../data/cal_housing.data", sep = ",", col.names = varnames)
