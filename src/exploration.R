@@ -239,7 +239,7 @@ df$households <- log(df$households)
 df$housingMedianAge <- log(df$housingMedianAge)
 df$oceanProximity <- log(df$oceanProximity)
 
-# Apliquem escalat a totes les variables excepte la latitud i el preu mitja en els quals nomes restem la mitjana
+# Apliquem escalat a totes les variables excepte el preu mitja en el qual nomes restem la mitjana
 
 df$roomsPop <- scale(df$roomsPop)
 df$bedsPop <- scale(df$bedsPop)
@@ -248,7 +248,7 @@ df$housingMedianAge <- scale(df$housingMedianAge)
 df$households <- scale(df$households)
 df$medianIncome <- scale(df$medianIncome)
 df$oceanProximity <- scale(df$oceanProximity)
-df$latitude <- df$latitude - mean(df$latitude)
+df$latitude <- scale(df$latitude)
 df$medianHouseValue <- df$medianHouseValue - mean(df$medianHouseValue)
 
 # Guardem el dataset definitiu
@@ -269,7 +269,7 @@ df %>%
 # Generacio de datasets d'entrenament i validacio
 
 df <- read.csv("../data/dataset_clean.csv")
-
+set.seed(1234)
 N <- nrow(df)
 all.indexes <- 1:N
 
