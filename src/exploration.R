@@ -184,4 +184,103 @@ axis(side=3, pos= 0, labels = F, col="cyan")
 axis(side=2, pos= 0, labels = F, col="cyan")
 axis(side=4, pos= 0, labels = F, col="cyan")
 
+# Creació de noves variables
+
+df$roomsPop <- df$totalRooms/df$population
+df$bedsPop <- df$totalBedrooms/df$population
+df$popHouses <- df$population/df$households
+df$households <- df$households
+df$housingMedianAge <- df$housingMedianAge
+
+# Realitzem un Random Forest per tal de veure la relació entre les variables i la seva importancia
+
+library(randomForest)
+model.rf <- randomForest(medianHouseValue ~ ., data = df, proximity=FALSE)
+importance(model.rf)
+varImpPlot(model.rf)
+
+# Realitzem un correlation plot per tal de veure si els indexs que hem creat son adequats
+# i com es relacionen les diferents variables del problema entre si
+
+library(corrplot)
+correlation <- cor(df)#[, -1])
+corrplot(corr = correlation,
+         order = 'hclust',
+         tl.col = 'black',
+         tl.cex = 0.8)
+library(caret)
+scales <- list(x = list(relation = 'free'),
+               y = list(relation = 'free'),
+               cex = 0.6)
+featurePlot(x = df[, -9],
+            y = df$medianHouseValue,
+            plot = 'density',
+            scales = scales,
+            layout = c(3, 8),
+            auto.key = list(columns = 2),
+            pch = '|')
+
+#Dataset definitiu
+
+# Tenint en compte el grafic de correlacions i importancies, es decideix que el dataset definitiu contindra
+# nomes les seguents variables
+
+newvarnames = c("latitude", "roomsPop", "bedsPop", "popHouses", "housingMedianAge", "households", "medianIncome", "oceanProximity", "medianHouseValue")
+
+df <- df[newvarnames]
+
+# Transformacio de variables: Apliquem la funcio logaritme a les funcions tenint en compte
+# el paper original i les observacions realitzades sobre les dades
+
+df$roomsPop <- log(df$roomsPop)
+df$bedsPop <- log(df$bedsPop)
+df$popHouses <- log(df$popHouses)
+df$households <- log(df$households)
+df$housingMedianAge <- log(df$housingMedianAge)
+df$oceanProximity <- log(df$oceanProximity)
+
+# Apliquem escalat a totes les variables excepte la latitud i el preu mitja en els quals nomes restem la mitjana
+
+df$roomsPop <- scale(df$roomsPop)
+df$bedsPop <- scale(df$bedsPop)
+df$popHouses <- scale(df$popHouses)
+df$housingMedianAge <- scale(df$housingMedianAge)
+df$households <- scale(df$households)
+df$medianIncome <- scale(df$medianIncome)
+df$oceanProximity <- scale(df$oceanProximity)
+df$latitude <- df$latitude - mean(df$latitude)
+df$medianHouseValue <- df$medianHouseValue - mean(df$medianHouseValue)
+
+# Guardem el dataset definitiu
+
+write.csv(df, file = "../data/dataset_clean.csv",row.names=FALSE)
+
+# Inspecció del dataset definitiu
+summary(df)
+
+# Histogrames del dataset definitiu
+df %>%
+  keep(is.numeric) %>% 
+  gather() %>% 
+  ggplot(aes(value)) +
+  facet_wrap(~ key, scales = "free") +
+  geom_histogram()
+
+# Generacio de datasets d'entrenament i validacio
+
+df <- read.csv("../data/dataset_clean.csv")
+
+N <- nrow(df)
+all.indexes <- 1:N
+
+learn.indexes <- sample(1:N, round(2*N/3))
+test.indexes <- all.indexes[-learn.indexes]
+
+learn.data <- df[learn.indexes,]
+test.data <- df[test.indexes,]
+
+# Guardem els dos datasets generats
+
+write.csv(learn.data, file = "../data/dataset_train.csv",row.names=FALSE)
+write.csv(test.data, file = "../data/dataset_test.csv",row.names=FALSE)
 
