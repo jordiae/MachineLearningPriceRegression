@@ -2,7 +2,7 @@ library(MASS)
 library(nnet)
 library(caret)
 set.seed(111)
-train.data <- read.csv("./dataset_train.csv")
+train.data <- read.csv("../data/dataset_train.csv")
 summary(train.data)
 
 ## specify 5x5 CV
