@@ -1,0 +1,113 @@
+> learn.data <- read.csv("../data/dataset_train.csv")
+> set.seed(1234)
+> library(e1071)
+> bestSVM <- tune(svm, medianHouseValue~., data = learn.data, kernel="linear",
++                 ranges = list(cost =10^seq(-2,3),epsilon=10^seq(-5,2)),
++                 tunecontrol = tune.control(sampling = "cross",nrepeat=5), scale = FALSE
++ )
+> Sys.time()
+[1] "2019-01-07 08:24:09 CET"
+> bestSVM
+
+Parameter tuning of ‘svm’:
+
+- sampling method: 10-fold cross validation 
+
+- best parameters:
+ cost epsilon
+ 1000     100
+
+- best performance: 4593576718 
+
+> sqrt(4593576718)
+[1] 67775.93
+> bestSVM$method
+[1] "svm"
+> bestSVM$best.performance
+[1] 4593576718
+> bestSVM$performances
+    cost epsilon       error dispersion
+1  1e-02   1e-05 14275603945  765608670
+2  1e-01   1e-05 14061582497  756289977
+3  1e+00   1e-05 12214935413  665876392
+4  1e+01   1e-05  5980862713  332296023
+5  1e+02   1e-05  4680319767  261213757
+6  1e+03   1e-05  4593726689  254195319
+7  1e-02   1e-04 14275603945  765608670
+8  1e-01   1e-04 14061582497  756289977
+9  1e+00   1e-04 12214935413  665876391
+10 1e+01   1e-04  5980862710  332296017
+11 1e+02   1e-04  4680319768  261213757
+12 1e+03   1e-04  4593726688  254195319
+13 1e-02   1e-03 14275603945  765608670
+14 1e-01   1e-03 14061582497  756289977
+15 1e+00   1e-03 12214935413  665876383
+16 1e+01   1e-03  5980862668  332295961
+17 1e+02   1e-03  4680319777  261213763
+18 1e+03   1e-03  4593726688  254195314
+19 1e-02   1e-02 14275603945  765608670
+20 1e-01   1e-02 14061582497  756289977
+21 1e+00   1e-02 12214935411  665876302
+22 1e+01   1e-02  5980862303  332295427
+23 1e+02   1e-02  4680319872  261213822
+24 1e+03   1e-02  4593726638  254195271
+25 1e-02   1e-01 14275603956  765608684
+26 1e-01   1e-01 14061582497  756289977
+27 1e+00   1e-01 12214935391  665875492
+28 1e+01   1e-01  5980860522  332292920
+29 1e+02   1e-01  4680320830  261214425
+30 1e+03   1e-01  4593726143  254194824
+31 1e-02   1e+00 14275604140  765608641
+32 1e-01   1e+00 14061582497  756289977
+33 1e+00   1e+00 12214926499  665863657
+34 1e+01   1e+00  5980854062  332299031
+35 1e+02   1e+00  4680327960  261218500
+36 1e+03   1e+00  4593720539  254190024
+37 1e-02   1e+01 14275569046  765593363
+38 1e-01   1e+01 14061582504  756316257
+39 1e+00   1e+01 12214860676  665725040
+40 1e+01   1e+01  5980789118  332426277
+41 1e+02   1e+01  4680374513  261335030
+42 1e+03   1e+01  4593700100  254109860
+43 1e-02   1e+02 14275472395  766083836
+44 1e-01   1e+02 14061496387  755993579
+45 1e+00   1e+02 12215400839  666268555
+46 1e+01   1e+02  5980597662  332634476
+47 1e+02   1e+02  4680299713  261249126
+48 1e+03   1e+02  4593576718  253896474
+> bestSVM
+
+Parameter tuning of ‘svm’:
+
+- sampling method: 10-fold cross validation 
+
+- best parameters:
+ cost epsilon
+ 1000     100
+
+- best performance: 4593576718 
+
+> model.svm_lin <- svm(medianHouseValue ~ ., data = learn.data, scale = FALSE, epsilon = 100, cost = 1000, kernel = "linear")
+> prediction <- predict(model.svm_lin,newdata=learn.data)
+> N <- nrow(learn.data)
+> (rmse <- sqrt(mean((learn.data$medianHouseValue - prediction)^2)))
+[1] 67727.66
+
+
+
+
+> model.svm_lin
+
+Call:
+svm(formula = medianHouseValue ~ ., data = learn.data, epsilon = 100, cost = 1000, kernel = "linear", scale = FALSE)
+
+
+Parameters:
+   SVM-Type:  eps-regression 
+ SVM-Kernel:  linear 
+       cost:  1000 
+      gamma:  0.125 
+    epsilon:  100 
+
+
+Number of Support Vectors:  13735

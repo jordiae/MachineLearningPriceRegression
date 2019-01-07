@@ -37,7 +37,7 @@ lowest.OOB.error <- as.integer(which.min(rf.results[,"OOB"]))
 
 bestRF <- randomForest(medianHouseValue ~ ., data = learn.data, ntree=ntrees.best, proximity=FALSE)
 
-prediction <- predict(bestRF,newx=learn.data)
+prediction <- predict(bestRF,newdata=learn.data)
 N <- nrow(learn.data)
 (rmse <- sqrt(mean((learn.data$medianHouseValue - prediction)^2)))
 
