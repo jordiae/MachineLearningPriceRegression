@@ -7,8 +7,8 @@ summary(train.data)
 
 library(glmnet)
 
-t <- as.numeric(learn.data[,9])
-x <- as.matrix(learn.data[,1:8])#8])
+t <- as.numeric(train.data[,9])
+x <- as.matrix(train.data[,1:8])#8])
 
 model.lasso <- cv.glmnet (x, t, nfolds = length(t))
 
