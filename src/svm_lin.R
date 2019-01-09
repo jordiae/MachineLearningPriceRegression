@@ -1,3 +1,4 @@
+# Jordi Armengol i Carles Balsells
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 learn.data <- read.csv("../data/dataset_train.csv")
 set.seed(1234)
