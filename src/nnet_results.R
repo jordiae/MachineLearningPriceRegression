@@ -1,3 +1,4 @@
+# Jordi Armengol i Carles Balsells
 load("../models/NNet_5x5CV.mod")
 
 # Best parameters found for the MLP neural network
