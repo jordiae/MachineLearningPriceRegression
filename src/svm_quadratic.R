@@ -1,4 +1,4 @@
-
+# Jordi Armengol i Carles Balsells
 learn.data <- read.csv("../data/dataset_train.csv")
 set.seed(1234)
 
