@@ -65,15 +65,15 @@ df %>%
 colvec <- rbPal(10)[as.numeric(cut(df$medianHouseValue,breaks = 10))]
 plot(main="Preu medià segons les coordenades",df$longitude,df$latitude,col=colvec, xlab = "Longitud",ylab = "Latitud")
 legend("topright", legend=c("Preu alt", "Preu baix"),
-       col=c("red", "blue"),fill=c("red","blue"),
+       col=c("blue", "red"),fill=c("blue","red"),
        title="Preu mitjà", text.font=4)
 
 # Ocean proximity
 rbPal <- colorRampPalette(c('red','blue'))
-colvec <- rbPal(10)[as.numeric(cut(df$oceanProximity,breaks = 10))]
+colvec <- rbPal(10)[as.numeric(cut(-log(df$oceanProximity),breaks = 10))]
 plot(main="Proximitat a l'oceà segons les coordenades",df$longitude,df$latitude,col=colvec, xlab = "Longitud",ylab = "Latitud")
 legend("topright", legend=c("Pròxim", "Allunyat"),
-       col=c("red", "blue"),fill=c("red","blue"),
+       col=c("blue", "red"),fill=c("blue","red"),
        title="Proximitat", text.font=4)
 
 
