@@ -1,3 +1,4 @@
+# Jordi Armengol i Carles Balsells
 load("../models/LASSO.mod")
 
 plot(model.lasso)
