@@ -1,3 +1,4 @@
+# Jordi Armengol i Carles Balsells
 library(MASS)
 library(nnet)
 library(caret)
