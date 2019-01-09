@@ -1,3 +1,4 @@
+# Jordi Armengol i Carles Balsells
 set.seed(1234)
 # Llegim el dataset principal i construim el dataframe
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
