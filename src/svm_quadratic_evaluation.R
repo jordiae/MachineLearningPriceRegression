@@ -1,3 +1,5 @@
+# Jordi Armengol i Carles Balsells
+
 load("../models/bestSVMQuad.mod")
 
 # Best parameters found for the quadratic SVM
