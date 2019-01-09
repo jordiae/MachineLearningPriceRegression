@@ -3,6 +3,9 @@ load("../models/bestSVMQuad.mod")
 # Best parameters found for the quadratic SVM
 model.SVMQuad$best.parameters
 
+# Number of support vectors for the best model
+ nrow(model.SVMQuad$best.model$SV)
+
 mse <- model.SVMQuad$best.performance
 
 # RMSE for quadratic SVM
